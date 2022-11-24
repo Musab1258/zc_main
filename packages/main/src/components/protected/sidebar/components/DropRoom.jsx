@@ -1,10 +1,14 @@
-import React from "react";
+import React, { useState } from "react";
 import styles from "../styles/Drop.module.css";
 import ToggleSwitch from "./ToggleSwitch";
 import { BsToggleOff } from "react-icons/bs";
 import GrCircleAlert from "react-icons/gr";
 
 const DropRoom = props => {
+  const [channelName, setChannelName] = useState("");
+  const [channelDescription, setChannelDescription] = useState("");
+  const [channelIsPrivate, setChannelIsPrivate] = useState(false);
+
   return props.trigger ? (
     <div
       className={`w-100 h-100 d-flex align-items-center justify-content-center ${styles.droproom__overlay} `}
@@ -34,6 +38,8 @@ const DropRoom = props => {
                 className={`w-100`}
                 type="text"
                 placeholder="# e.g, plan-budget"
+                value={channelName}
+                onChange={e => setChannelName(e.target.value)}
                 required
               />
             </span>
@@ -41,7 +47,12 @@ const DropRoom = props => {
               <label>
                 Description <span>(optional)</span>
               </label>
-              <input className={`w-100`} type="text" />
+              <input
+                className={`w-100`}
+                type="text"
+                value={channelDescription}
+                onChange={e => setChannelDescription(e.target.value)}
+              />
               <label>
                 <span>What's this channel about?</span>
               </label>
@@ -70,7 +81,7 @@ const DropRoom = props => {
                 </label>
               </span>
               {/* <GrCircleAlert /> */}
-              <button type="submit"> Create</button>
+              <button type="submit">Create</button>
             </div>
           </div>
         </form>

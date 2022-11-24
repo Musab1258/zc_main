@@ -549,7 +549,6 @@ const Button = styled.button`
   cursor: pointer;
   outline: transparent;
   border-radius: 4px;
-
   &:hover {
     border: 2px solid #1d1d1d;
   }
@@ -641,7 +640,6 @@ const EditContent = styled.h4`
   margin-top: 5px;
   color: #8b8b8b;
   padding-left: 20px;
-
   button {
     border: none;
     color: #00b87c;
@@ -709,7 +707,6 @@ const RemoveLink = styled.p`
   font-weight: 500;
   font-size: 14px;
   cursor: pointer;
-
   &:hover {
     text-decoration: underline;
   }
