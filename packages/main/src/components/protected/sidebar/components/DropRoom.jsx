@@ -1,13 +1,64 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import styles from "../styles/Drop.module.css";
 import ToggleSwitch from "./ToggleSwitch";
 import { BsToggleOff } from "react-icons/bs";
 import GrCircleAlert from "react-icons/gr";
+import axios from "axios";
 
 const DropRoom = props => {
+  /**
+   * @param {string} org_Id
+   * @param {string} member_Id
+   * @param {Object} roomData
+   * @returns {Promise<Object>}
+   * @description Send message to the room and persist message in the database
+   */
+
+  const org_Id = localStorage.getItem("currentWorkspace");
+  const member_Id = localStorage.getItem("member_id");
+
   const [channelName, setChannelName] = useState("");
   const [channelDescription, setChannelDescription] = useState("");
   const [channelIsPrivate, setChannelIsPrivate] = useState(false);
+
+  const roomData = {
+    room_name: channelName,
+    room_type: "CHANNEL",
+    room_members: {
+      member_Id: {
+        role: "admin",
+        starred: false,
+        closed: false
+      }
+    },
+    created_at: "2022-11-24 22:31:46.962454",
+    description: channelDescription,
+    topic: "None for now",
+    is_private: channelIsPrivate,
+    is_archived: false
+  };
+
+  const createNewChannel = async () => {
+    try {
+      if (org_Id && member_Id && roomData) {
+        const createNewChannelResponse = await axios.post(
+          `https://chat.zuri.chat/api/v1/org/${org_Id}/members/${member_Id}/rooms`,
+          {
+            ...roomData
+          }
+        );
+        return createNewChannelResponse.data;
+      }
+      throw new Error("Invalid arguments");
+    } catch (error) {
+      console.error(error);
+    }
+  };
+
+  const handleSubmit = e => {
+    e.preventDefault();
+    createNewChannel();
+  };
 
   return props.trigger ? (
     <div
@@ -81,7 +132,9 @@ const DropRoom = props => {
                 </label>
               </span>
               {/* <GrCircleAlert /> */}
-              <button type="submit">Create</button>
+              <button type="submit" onSubmit={handleSubmit}>
+                Create
+              </button>
             </div>
           </div>
         </form>
