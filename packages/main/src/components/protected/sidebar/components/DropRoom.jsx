@@ -11,11 +11,11 @@ const DropRoom = props => {
    * @param {string} member_Id
    * @param {Object} roomData
    * @returns {Promise<Object>}
-   * @description Send message to the room and persist message in the database
+   * @description create a new channel 
    */
 
-  const org_Id = localStorage.getItem("currentWorkspace");
-  const member_Id = localStorage.getItem("member_id");
+  const org_id = localStorage.getItem("currentWorkspace");
+  const member_id = localStorage.getItem("member_id");
 
   const [channelName, setChannelName] = useState("");
   const [channelDescription, setChannelDescription] = useState("");
@@ -40,9 +40,9 @@ const DropRoom = props => {
 
   const createNewChannel = async () => {
     try {
-      if (org_Id && member_Id && roomData) {
+      if (org_id && member_id && roomData) {
         const createNewChannelResponse = await axios.post(
-          `https://chat.zuri.chat/api/v1/org/${org_Id}/members/${member_Id}/rooms`,
+          `https://chat.zuri.chat/api/v1/org/${org_id}/members/${member_id}/rooms`,
           {
             ...roomData
           }
